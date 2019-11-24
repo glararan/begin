@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /php/
+Disallow: /old/
+Disallow: /domains/

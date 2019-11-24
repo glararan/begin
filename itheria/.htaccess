@@ -1,0 +1,17 @@
+# Options +FollowSymlinks
+
+# SEO URL Settings
+RewriteEngine On
+RewriteBase /
+
+# exclude wiki & forum folder
+RewriteRule ^(wiki)($|/) - [L]
+RewriteRule ^(forum)($|/) - [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ?arg=$1 [L,QSA]
+
+# lomitko
+RewriteCond %{REQUEST_URI} !\.[[:alnum:]]+$
+RewriteRule ^(.+[^/])$ /$1/ [R=301]

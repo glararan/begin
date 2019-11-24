@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pages>
+	<Page ID="0">
+		<Title>Test Page</Title>
+		<Author>test author</Author>
+		<Date>1/1/111:11:11</Date>
+		<Text>test text</Text>
+	</Page>
+</Pages>

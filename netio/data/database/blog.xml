@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Blog>
+	<Article ID="0">
+		<Title>Test Article</Title>
+		<Author>test author</Author>
+		<Date>1/1/1 11:11:11</Date>
+		<Text>test1</Text>
+		<TextF>test23</TextF>
+		<Link>link</Link>
+	</Article>
+<Article ID="1"><Title>článek 1</Title><Author>glararan</Author><Date>21/08/2012 22:20:44</Date><Text>text pro prvn&amp;iacute; čl&amp;aacute;nek</Text><TextF>text pro prvn&amp;iacute; čl&amp;aacute;nek&lt;br /&gt;&#13;
+text pro prvn&amp;iacute; čl&amp;aacute;nek</TextF><Link>/blog/1/content/</Link></Article></Blog>

@@ -1,0 +1,60 @@
+#main {padding:20px 15px;}
+#mapWidget {/*width:100%;*/flex:1;height:400px;}
+
+#ttTop {display:-ms-flex;display:-webkit-flex;display:flex;margin-bottom:15px;padding-right:30px;}
+#ttBot {overflow:hidden;}
+#ttTime {position:absolute;top:0px;left:0px;width:5px;background-color:#f00;height:100%;display:none;}
+
+.dateDisabled {cursor:not-allowed !important;opacity:0.7;}
+
+#ttTable {table-layout:fixed;margin-bottom:0;}
+#ttTable tr td:first-child {text-align:right;vertical-align:middle;}
+#ttTable tr:nth-child(2) td:first-child {border-top:0;}
+#ttTable tr:nth-child(1) th:first-child {border-bottom:0;width:10%;}
+
+.subTask {color:#fff;background-color:#5bc0de;padding:8px;line-height:12pt;cursor:pointer;position:relative;height:32px;padding-right:25px;}
+.subTask a {float:right;position:absolute;right:5px;top:8px;}
+.subTask a:hover {color:#fff;}
+
+.subTask .ttDrag {position:absolute;right:-6px;top:0;bottom:0;width:0;height:0;cursor:w-resize;border-top:16px solid transparent;border-left:8px solid #5bc0de;border-bottom:16px solid transparent;}
+.subTask .text {width:40px;white-space:nowrap;overflow:hidden;position:relative;text-overflow:ellipsis;float:left;}
+
+#ttDetail {position:absolute;height:100%;background-color:#fff;left:30px;float:none;width:calc(33.33333333% - 45px);z-index:9;box-shadow:0px 0px 15px #aaa;display:none;padding:15px;}
+#ttDetail h4 {text-align:center;}
+
+@keyframes past
+{
+    from {box-shadow:0px 0px 10px #f00;}
+    50% {box-shadow:0px 0px 20px #f00;}
+    to {box-shadow:0px 0px 10px #f00;}
+}
+
+.tt-running {background-color:#408cff;}
+.tt-running .ttDrag {border-left-color:#408cff;}
+.tt-confirm {background-color:#ffa22e;}
+.tt-confirm .ttDrag {border-left-color:#ffa22e;}
+.tt-finished {background-color:#ff6262;}
+.tt-finished .ttDrag {border-left-color:#ff6262;}
+.tt-past {box-shadow:0px 0px 10px #f00;animation-name:past;animation-duration:2.5s;animation-iteration-count:infinite;}
+.tt-past .ttDrag {}
+
+.map-icon-label .map-icon {
+	font-size: 14px;
+	color: #000;
+	line-height: 24px;
+	text-align: center;
+    width: 24px;
+	white-space: nowrap;
+}
+
+.map-icon-label {position:absolute;}
+
+#ttTable tr:not(:first-child) td:not(:first-child)
+{
+    -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;  
+}

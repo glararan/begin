@@ -1,0 +1,115 @@
+#accountTable tr td, #articleTable tr td, #changelogTable tr td {vertical-align: middle;}
+#accountTable .btn-group, #accountTable .btn-group button {width:100%;}
+
+.addArticle, .addChangelog {margin-top:10px;}
+
+.fr-box {margin-bottom:5px;}
+
+/* skin */
+.main-header {background-color:#2f2f2f;}
+.main-header > .logo {background-color:transparent !important;color:#f3f3f3 !important;border-right: 1px solid #808080 !important;}
+.navbar {background-color:transparent !important;color:#f3f3f3 !important;}
+.main-header>.navbar>.sidebar-toggle {color:#f3f3f3 !important;border-right: 1px solid #808080 !important;}
+.main-header>.navbar .nav>li>a {color:#f3f3f3 !important;}
+.main-header>.navbar .navbar-custom-menu .navbar-nav>li>a, .main-header>.navbar .navbar-right>li>a {border-left: 1px solid #808080 !important;}
+
+.main-header>.navbar .sidebar-toggle:hover, .main-header>.navbar .nav>li>a:hover, .main-header>.navbar .nav>li>a:active, .main-header>.navbar .nav>li>a:focus, .main-header>.navbar .nav .open>a, .main-header>.navbar .nav .open>a:hover, .main-header>.navbar .nav .open>a:focus, .main-header>.navbar .nav>.active>a {background-color:#444 !important;}
+
+.wrapper, .main-sidebar, .left-side {background-color:#131313 !important;}
+.sidebar-menu>li.header, .sidebar-menu>li:hover>a, .sidebar-menu>li.active>a {background-color:#1d1d1d !important;}
+
+.sidebar-menu>li.header {color:#EFEFEF !important;}
+.sidebar a {color:#A9CA91 !important;}
+.sidebar-menu>li:hover>a, .sidebar-menu>li.active>a {color:#fff !important;}
+
+/* icons */
+.race {background:url("../../../images/races.png") 0 0 no-repeat;width:32px;height:32px;margin:0 auto;}
+.race.human {background-position:0 0;}
+.race.dwarf {background-position:-32px 0px;}
+.race.gnome {background-position:-64px 0px;}
+.race.nightelf {background-position:-96px 0px;}
+.race.draenei {background-position:-128px 0px;}
+.race.worgen {background-position:-160px 0px;}
+.race.tauren {background-position:0px -32px;}
+.race.undead {background-position:-32px -32px;}
+.race.troll {background-position:-64px -32px;}
+.race.orc {background-position:-96px -32px;}
+.race.bloodelf {background-position:-128px -32px;}
+.race.goblin {background-position:-160px -32px;}
+
+.race.fhuman {background-position:0px -64px;}
+.race.fdwarf {background-position:-32px -64px;}
+.race.fgnome {background-position:-64px -64px;}
+.race.fnightelf {background-position:-96px -64px;}
+.race.fdraenei {background-position:-128px -64px;}
+.race.fworgen {background-position:-160px -64px;}
+.race.ftauren {background-position:0px -96px;}
+.race.fundead {background-position:-32px -96px;}
+.race.ftroll {background-position:-64px -96px;}
+.race.forc {background-position:-96px -96px;}
+.race.fbloodelf {background-position:-128px -96px;}
+.race.fgoblin {background-position:-160px -96px;}
+
+
+.class {background:url("../../../images/classes.png") 0 0 no-repeat;width:32px;height:32px;margin:0 auto;}
+.class.warrior {background-position:0px 0px;}
+.class.mage {background-position:-32px 0px;}
+.class.rogue {background-position:-64px 0px;}
+.class.druid {background-position:-96px 0px;}
+.class.hunter {background-position:0px -32px;}
+.class.shaman {background-position:-32px -32px;}
+.class.priest {background-position:-64px -32px;}
+.class.warlock {background-position:-96px -32px;}
+.class.paladin {background-position:0px -64px;}
+.class.deathknight {background-position:-32px -64px;}
+
+/* map */
+#mapWrapper {background:#011d28;height:500px;overflow:hidden;}
+#mapContainer {height:500px;}
+
+.mapBtn-group {}
+.mapBtn {border-radius:0;background:#011d28;border-color:#042F40;padding:15px;}
+.mapBtn div:nth-child(2) {margin-top:5px;}
+.mapBtn img {-webkit-filter:brightness(0.5);}
+.mapBtn.active img {-webkit-filter:brightness(1.1);}
+.mapBtn:hover img {-webkit-filter:brightness(1);}
+.mapBtn-group .mapBtn+.mapBtn {margin-left:0;}
+
+#azeroth, #northrend, #grizzlyhills, #pointsAzeroth, #pointsNorthrend, #pointsGrizzlyHills {position: absolute;}
+#pointsAzeroth, #pointsNorthrend, #pointsGrizzlyHills {z-index:10;overflow:hidden;}
+#azeroth, #northrend, #grizzlyhills {z-index:5;}
+
+/*#azeroth, #pointsAzeroth {width:7313px;height:4931px;}*/
+#azeroth {background:url("../../../images/azerothLarge.jpg");background-size:contain;}
+/*#northrend, #pointsNorthrend {width:2501px;height:1952px;}*/
+#northrend {background:url("../../../images/northrend.jpg");background-size:contain;}
+/*#northrend {background:url("../img/northrend.jpg");}*/
+/*#grizzlyhills, #pointsGrizzlyHills {width:1252px;height:844px;}*/
+#grizzlyhills {background:url("../../../images/grizzlyhills.jpg");background-size:contain;box-shadow: 0px 0px 7px #2a1909;} 
+
+#pointsAzeroth, #pointsNorthrend {position:absolute;z-index:10;}
+
+/* tasks */
+.taskBox {float:left;}
+
+.switch {float:left;display: inline-block;vertical-align:top;position: relative;width: 58px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;margin-right:25px;}
+.switch > input {position: absolute;top: 0;left: 0;width: inherit;height: inherit;opacity: 0;-webkit-appearance: none;}
+.switch > input:checked+label {padding-left: 33px;color: white;background: #3fb6f2;border-color: #3fb6f2;}
+.switch > label {display: block;position: relative;height: 25px;line-height: 20px;font-size: 10px;font-weight: bold;color: #bbb;text-align: center;text-transform: uppercase;background: white;   border: 2px solid #d9d9d9;border-radius: 13px;-webkit-transition: 0.15s ease-out;-moz-transition: 0.15s ease-out;-o-transition: 0.15s ease-out;transition: 0.15s ease-out;}
+.switch > input:checked+label:before {content: attr(data-on);left: 1px;}
+.switch > label:before {content: attr(data-off);position: absolute;top: 0;right: 3px;width: 33px;}
+.switch > input:checked+label:after {margin: 1px;width: 19px;height: 19px;background: white;}
+.switch > label:after {content: '';display: block;margin: 2px;width: 17px;height: 17px;background: #ccc;border-radius: 13px;}
+.switch-square > label:after {width: 21px;border-radius: 1px;}
+.switch-square > input:checked+label:after {width:23px;}
+.switch-square > label:before {width:25px;}
+.switch-square > label {border-radius:2px;}
+.switch-square > input:checked+label {padding-left: 29px;}
+.switch-green > input:checked+label {background: #4ebd4a;border-color: #4ebd4a;}
+
+.task.ended > * {opacity:0.8;}
+.task.ended > button {opacity:1.0;}
+.task .radio, .taskRadio {margin-left:50px;}
+
+#tasks .box-header .box-title {line-height: 18pt;padding:2px 0px;}
+#tasks .box-header .box-title .label {margin-left:10px;}

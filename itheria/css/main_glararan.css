@@ -1,0 +1,60 @@
+* {-webkit-transition: all 500ms ease-in-out;
+-moz-transition: all 500ms ease-in-out;
+-ms-transition: all 500ms ease-in-out;
+-o-transition: all 500ms ease-in-out;
+transition: all 500ms ease-in-out;}
+
+body {background:#101010 url("../images/background.png") top center no-repeat;}
+
+h1, h2 {display:none;}
+
+.row {margin:0;}
+
+nav {margin-top:10px;height:70px;}
+.navbar-nav > li > a {font-size:13pt;}
+.navbar-default {border:1px solid rgba(255, 255, 255, 0.15);background:#501A00;border-radius:7px;}
+.navbar-default .navbar-nav > li > a {color:#dedede;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {background:rgba(255, 255, 255, 0.1);color:#f5f5f5;}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {background:rgba(255, 255, 255, 0.1);color:#f5f5f5;}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {color:#f5f5f5;background:rgba(255, 255, 255, 0.1);}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {background:rgba(80, 26, 0, 0.8);color:#f5f5f5;}
+.navbar-nav > li {margin-right:1px;}
+
+footer {color:#DC783E;}
+
+#wrapper {padding-bottom:20px;}
+#head {margin-top:50px;}
+#main {padding-left:50px;padding-top:100px;}
+#content {margin-top:-60px;}
+
+.brownPanel.panel-default {border-color:rgb(156, 67, 24);}
+.brownPanel .panel-heading {background:#501A00;border-color:rgb(156, 67, 24);}
+.brownPanel .panel-title {color:#f5f5f5;}
+.brownPanel .panel-body {background:#501A00;color:#c5c5c5;}
+.brownPanel .panel-footer {background:#501A00;border-color:rgb(156, 67, 24);color:#c5c5c5;}
+
+.article .panel-title {font-size:14pt;}
+
+.avatar {
+    overflow: hidden;
+    padding: 1px;
+    background-color: black;
+    background-position: 1px 1px;
+    background-repeat: no-repeat;
+    float: left;
+    border: 1px solid #4C3E33;
+    border-bottom-color: #523F33;
+    border-top-color: #887465;
+    border-radius: 3px;
+    width: 96px;
+    height: 96px;
+    margin-right:10px;margin-bottom:10px;
+}
+.avatar img {width:100%;height:100%;}
+
+#bear {padding-top:200px;opacity:0.85;}
+#eagle {opacity:0.9;margin:0px 100px 250px 0px;}
+#rightPanel {padding-left:20px;}
+
+#registerNow {background:#501A00;border:1px solid rgb(156, 67, 24);text-transform:uppercase;font-family:"Segoe UI Light";padding:12px 30px;border-radius:7px;font-size:18pt;outline:none;margin-bottom:10px;color:#B4FF00;}
+#registerNow:hover {background:#632000;}

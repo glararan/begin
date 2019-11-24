@@ -1,0 +1,266 @@
+/*---------------------------------
+-----UNDER CONSTRUCTION PAGE-------
+-----Whriten by EvilSystem---------
+-----www.evil.duloclan.com---------
+---------------------------------*/
+
+	/* RESET */
+	
+	* {position:relative; margin:0; padding:0; outline: none;}
+	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block;}
+	
+	a {color:#535353; text-decoration:none;}
+	a:hover {color:#787878;}
+	
+	div.clear { clear:both; height:1px;}
+	
+	BODY {
+		background:url(images/background.jpg) no-repeat top, url(images/background-2.jpg) repeat;
+		font-family: 'Doppio One', sans-serif;
+		color:#424242;
+		height:100%;
+		}
+	HTML { height:100%;}
+		
+	div#wrapper {
+		width:576px; height:auto;
+		margin:0 auto;
+		}
+		
+	#header {}
+	
+		#header h1#logo {
+		width:494px; height:79px;
+		background:url(images/page-title.png) no-repeat top center;
+		margin:0 auto;
+		}
+	
+	#content {
+		width:576px; height:auto; min-height:260px;
+		background:url(images/content-light.png) no-repeat center top;
+		top:-65px;
+		}
+		
+		/* PROGRESS BAR */
+		.progress-bar-wrapp {
+			width:574px; height:41px;
+			border-radius:6px;
+			background:rgba(0,0,0,.45);
+			margin:144px 0 0 0;
+			padding:0 1px;
+			box-shadow: inset 0 3px 1px rgba(0,0,0,.3), inset 0 0 7px rgba(0,0,0,.3), 0 1px 0 rgba(255,255,255,.04);
+			overflow:hidden;
+			}
+			#progress-bar {
+			width:auto; height:40px;
+			background:url(images/progressbar.png) no-repeat left top;
+			top:1px;
+			border-radius:5px;
+			box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 0 10px #000;
+			overflow:hidden;
+			}
+			
+			#progress-bar #animation {
+				display:block;
+				position:absolute; top:0; left:0;
+				width:100%; height:40px;
+				background-image:url(images/progressbar-animation.png);
+				background-repeat:repeat-x;
+				border-radius:4px;
+				-webkit-animation:move 4999000s linear;
+				-moz-animation:move 1270000s linear;
+				-ms-animation:move 1140000s linear;
+				animation:move 1140000s linear;
+				}
+			
+			#progress-bar p {
+				display:block;
+				text-transform:uppercase;
+				color:rgba(0,0,0,.6);
+				font-size:15px;
+				font-weight: bold;
+				text-shadow:1px 1px 0 rgba(255,255,255,.05);
+				float:right;
+				margin:9px 13px 0 0;
+				}
+
+				/* Progress bar animation KEYFRAMES */
+				@-webkit-keyframes move {
+					  0% {
+					  	background-position: 0 0;
+					  }
+					  100% {
+					  	background-position: 99999999px 0;
+					  }
+				}	
+				@-moz-keyframes move {
+					  0% {
+					  	background-position: 0 0;
+					  }
+					  100% {
+					  	background-position: 99999999px 0;
+					  }
+				}	
+				@-ms-keyframes move {
+					  0% {
+					  	background-position: 0 0;
+					  }
+					  100% {
+					  	background-position: 99999999px 0;
+					  }
+				}	
+				@keyframes move {
+					  0% {
+					  	background-position: 0 0;
+					  }
+					  100% {
+					  	background-position: 99999999px 0;
+					  }
+				}
+				
+	
+	/* TEXT */
+	#content h3 {
+		display:block;
+		font-size:17px;
+		text-align:center;
+		font-weight: normal;
+		margin:45px auto 0 auto;
+		text-shadow:0 2px 0 rgba(0,0,0,.4), 0 0 7px rgba(0,0,0,.3);
+		}
+	
+	
+	/* SUBSCRIBE & Media links */
+	
+	.subscribe-wrapp {
+		margin:45px 0 0 60px;
+		}
+		
+		/* Subscribe form */
+		form#subscribe {float:left;}
+		
+		form#subscribe input[type="text"] {
+		width:206px; height:30px;
+		padding: 0 0 0 7px;
+		border: none;
+		border-radius:5px;
+		background:rgba(0,0,0,.45);
+		box-shadow: inset 0 2px 1px rgba(0,0,0,.4), inset 0 0 7px rgba(0,0,0,.3), 0 1px 0 rgba(255,255,255,.04);
+		font-size:11px;
+		color:#2c2c2c;
+		text-shadow:0 1px 1px #000, 0 0 5px #000;
+		}
+		
+		form#subscribe input[type="submit"] {
+		background:rgb(47,47,47); /* Old browsers */
+		background:-moz-linear-gradient(top,  rgba(47,47,47,1) 0%, rgba(62,62,62,1) 100%); /* FF3.6+ */
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(47,47,47,1)), color-stop(100%,rgba(62,62,62,1))); /* Chrome,Safari4+ */
+		background:-webkit-linear-gradient(top,  rgba(47,47,47,1) 0%,rgba(62,62,62,1) 100%); /* Chrome10+,Safari5.1+ */
+		background:-o-linear-gradient(top,  rgba(47,47,47,1) 0%,rgba(62,62,62,1) 100%); /* Opera 11.10+ */
+		background:-ms-linear-gradient(top,  rgba(47,47,47,1) 0%,rgba(62,62,62,1) 100%); /* IE10+ */
+		background:linear-gradient(top,  rgba(47,47,47,1) 0%,rgba(62,62,62,1) 100%); /* W3C */
+		filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#2f2f2f', endColorstr='#3e3e3e',GradientType=0 ); /* IE6-9 */
+		border: none;
+		cursor: pointer;
+		border-radius:5px;
+		height:29px;
+		margin:0 0 0 5px;
+		padding:0px 8px 2px 8px;		
+		font-family: 'Doppio One', sans-serif;
+		font-size:10px;
+		font-weight: bold;
+		color:rgba(0,0,0,.65);
+		text-shadow:1px 1px 0 rgba(255,255,255,.04);
+		text-transform:uppercase;
+		box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 0 8px rgba(0,0,0,.3), 0 2px 0 rgba(0,0,0,.4);
+		}
+		form#subscribe input[type="submit"]:hover {
+		background: rgb(62,62,62); /* Old browsers */
+		background: -moz-linear-gradient(top,  rgba(62,62,62,1) 0%, rgba(47,47,47,1) 99%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(62,62,62,1)), color-stop(99%,rgba(47,47,47,1))); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top,  rgba(62,62,62,1) 0%,rgba(47,47,47,1) 99%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top,  rgba(62,62,62,1) 0%,rgba(47,47,47,1) 99%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top,  rgba(62,62,62,1) 0%,rgba(47,47,47,1) 99%); /* IE10+ */
+		background: linear-gradient(top,  rgba(62,62,62,1) 0%,rgba(47,47,47,1) 99%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e3e3e', endColorstr='#2f2f2f',GradientType=0 ); /* IE6-9 */
+		color:rgba(0,0,0,.9);
+		text-shadow:1px 1px 0 rgba(255,255,255,.04), 0 0 5px rgba(255,255,255,.08);
+		}
+		
+		/* Media Icons */
+		
+		ul.smedia-icons {
+			float:left;
+			list-style: none;
+			margin: 4px 0 0 45px;
+			}
+			
+			ul.smedia-icons li { 
+				display:inline-block;
+				margin: 0 0 0 2px;
+				}
+				
+			ul.smedia-icons li a, ul.smedia-icons li a p {
+				display:block;
+				width:22px; height:22px;
+				background-image:url(images/social-media-icons.jpg);
+				border-radius:4px;
+				box-shadow:0 0 5px rgba(0,0,0,.5);
+				overflow: hidden;
+				}
+				ul.smedia-icons li a p {
+				opacity:0;
+				-moz-transition:opacity 1s;
+				-webkit-transition:opacity 1s;
+				-o-transition:opacity 1s;
+				transition:opacity 1s;
+				}
+				ul.smedia-icons li a p:hover { opacity:1;}
+				
+				ul.smedia-icons li a#facebook {background-position: 0 0;}
+				ul.smedia-icons li a#youtube {background-position: -22px 0;}
+				ul.smedia-icons li a#twitter {background-position: -44px 0;}
+				ul.smedia-icons li a#googlepl {background-position: -66px 0;}
+				
+				ul.smedia-icons li a#facebook p {background-position: 0 -22px;}
+				ul.smedia-icons li a#youtube p {background-position: -22px -22px;}
+				ul.smedia-icons li a#twitter p {background-position: -44px -22px;}
+				ul.smedia-icons li a#googlepl p {background-position: -66px -22px;}
+				
+	/* FOOTER */
+	#footer {}
+	
+	
+	
+	/* Credits */
+	/* Please do not remove */
+		a.credits {
+		position:absolute;
+		bottom:14px; right:16px;
+		color:rgba(255,255,255,.09);
+		text-shadow:0 0 8px rgba(0,0,0,.9), 0 1px 1px rgba(0,0,0,.4);
+		text-decoration: none;
+		font-size:12px;
+		text-transform: uppercase;
+		-moz-transition:all 1s;
+		-webkit-transition:all 1s;
+		-o-transition:all 1s;
+		transition:all 1s;
+		}
+		a.credits:hover {
+			color:rgba(255,255,255,.15);
+			text-shadow:0 0 13px rgba(0,0,0,1), 0 1px 1px rgba(0,0,0,.5);
+			}
+	/* Please do not remove */
+	
+			
+
+
+
+
+
+
+
+
+
+

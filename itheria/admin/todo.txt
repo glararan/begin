@@ -1,0 +1,4 @@
+-- login
+-- uživatele - hra (zmìna gm level, smazat, povýšit na gm)
+-- èlánky
+-- changelog

@@ -1,0 +1,128 @@
+@charset "utf-8";
+
+*
+{
+	font-size: 14px;
+	color: #555;
+	font-family: Myriad Pro;
+}
+
+html
+{
+	background: #EEE;
+}
+
+a
+{
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #C00;
+}
+
+html, body
+{
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	height: 100%;
+}
+
+/* Menu */
+h1
+{
+	color: #333;
+	font-size: 46px;
+	margin: 20px 20px 10px 20px;
+	font-weight: normal;
+}
+
+#menu
+{
+	width: 240px;
+	position: absolute;
+	text-align: center;
+	border-right: dashed 1px #BBB;
+	height: 100%;
+}
+
+menu
+{
+	list-style-type: none;
+	width: 100px;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 20px 0px 20px;
+}
+
+menu li
+{
+	border-top: solid 1px #BBB;
+	padding: 10px 0px 5px 0px;
+	text-align: left;
+}
+
+menu li a
+{
+	text-decoration: none;
+}
+
+menu li a:hover
+{
+	color: #C00;
+}
+
+menu li:first-child
+{
+	border-top: none;
+}
+
+/* Obsah */
+#content
+{
+	margin-left: 240px;
+    padding: 20px 20px 20px 20px;
+	
+}
+
+/* Přihlášení */
+#login
+{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 245px;
+	height: 150px;
+	margin-top: -75px;
+	margin-left: 0px;
+}
+
+#login *
+{
+	display: block;
+	margin: 5px 5px 5px 5px;
+}
+
+#warning
+{
+	font-weight: bold;
+	color: red;
+}
+
+/* Zařízení */
+#categories
+{
+	list-style-type: none;
+	padding-left: 0px;
+}
+
+#categories li ul
+{
+	list-style-type: none;
+	margin: 10px 10px 10px 10px;
+}
+
+.category
+{
+	font-size: 20px;
+}

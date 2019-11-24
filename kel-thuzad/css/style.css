@@ -1,0 +1,87 @@
+﻿@charset "utf-8";
+
+body {background:#000 url('../images/background.png') top center no-repeat;font-size:12px;font-family:Arial, Helvetica, sans-serif;color:#666;margin:0;padding:0;}
+
+a {color:#17A8DA;text-decoration:none;}
+a:hover {color:white;}
+
+.blue {color:#4375a0;}
+.green {color:#41ac39;}
+.red {color:#ff0000;}
+
+.wrapper {width:960px;margin:0 auto;}
+
+.logo {width:456px;height:82px;background:url('../images/logo.png') top center no-repeat;margin-top:160px;margin-left:120px;}
+.logo h1 {display:none;}
+
+.menu {width:100%;height:77px;background:url('../images/menu_bar.png') top center no-repeat;margin-top:65px;}
+.menu ul {width:100%;height:77px;margin:0;padding:0;list-style:none;}
+.menu ul li {height:77px;float:left;background:none;padding:0;margin:0;}
+.menu ul li a {height:77px;display:block;}
+.menu ul li a:hover, .menu ul li a:active, .menu ul li a.active {background-image:url('../images/menu_bar.png');}
+
+/* menu links */
+.menu ul li.home {width:81px;}
+.menu ul li.register {width:113px;}
+.menu ul li.htc {width:134px;}
+.menu ul li.rules {width:98px;}
+.menu ul li.armory {width:97px;}
+
+.menu ul li.home a:hover {background-position:0px -77px;}
+.menu ul li.register a:hover {background-position:-81px -77px;}
+.menu ul li.htc a:hover {background-position:-194px -77px;}
+.menu ul li.rules a:hover {background-position:-328px -77px;}
+.menu ul li.armory a:hover {background-position:-426px -77px;}
+
+.menu ul li.home a:active {background-position:0px -154px;}
+.menu ul li.register a:active {background-position:-81px -154px;}
+.menu ul li.htc a:active {background-position:-194px -154px;}
+.menu ul li.rules a:active {background-position:-328px -154px;}
+.menu ul li.armory a:active {background-position:-426px -154px;}
+
+.menu ul li.home .active {background-position:0px -154px;}
+.menu ul li.register .active {background-position:-81px -154px;}
+.menu ul li.htc .active {background-position:-194px -154px;}
+.menu ul li.rules .active {background-position:-328px -154px;}
+.menu ul li.armory .active {background-position:-426px -154px;}
+
+.container {width:100%;height:auto;margin-top:5px;clear:both;padding-top:5px;}
+.container:first-child {padding-top:0px;}
+.left {float:left;}
+.right {float:right;}
+
+.video {width:630px;height:280px;background:url('../images/video_border.png') top center no-repeat;}
+.video .object {width:622px;height:272px;padding:4px;}
+
+.status {width:323px;height:280px;margin-left:7px;}
+.status .top {width:323px;height:2px;background:url('../images/right_menu_top.png') top center no-repeat;}
+.status .status_container {width:323px;height:276px;background:url('../images/right_menu_borders.png') top center repeat-y;margin:0;}
+.status .status_container .content {width:319px;height:276px;background:url('../images/right_menu_background.png') top center repeat-y;padding-left:2px;padding-right:2px;text-align:center;font-size:14px;font-family:Georgia;text-transform:uppercase;color:#17A8DA;}
+.status .status_container .content .serverstatus {font-size:18px;font-family:Tahoma, Geneva, sans-serif;color:#BABABA;}
+.status .status_container .content .text {padding:20px;text-align:left;font-size:15px;line-height:42px;}
+.status .status_container .content .text span {float:right;}
+.status .bottom {width:323px;height:2px;background:url('../images/right_menu_bottom.png') top center no-repeat;}
+
+.articles {width:630px;height:auto;}
+.article {width:630px;height:auto;}
+.article .top {width:630px;height:2px;background:url('../images/article_top.png') top center no-repeat;}
+.article .article_container {width:630px;height:auto;background:url('../images/article_borders.png') top center repeat-y;}
+.article .article_container .content {width:626px;height:auto;background:url('../images/article_background.png') top center repeat-y;padding-left:2px;padding-right:2px;}
+.article .article_container .content .header {width:100%;height:50px;padding:20px 20px 5px 20px;}
+.article .article_container .content .header .title {font-family:Georgia;font-size:15px;text-transform:uppercase;font-weight:bold;color:white;}
+.article .article_container .content .header .subtitle {font-size:13px;color:#8998A3;font:normal 12px/18px Trebuchet MS;}
+.article .article_container .content .text {padding:0px 25px 25px 25px;color:#68959C;text-shadow:black 1px 1px;}
+.article .bottom {width:630px;height:2px;background:url('../images/article_bottom.png') top center no-repeat;}
+
+.right_buttons {width:323px;height:auto;margin-left:7px;}
+.right_buttons .top {width:323px;height:2px;background:url('../images/right_menu_top.png') top center no-repeat;}
+.right_buttons .buttons_container {width:323px;height:auto;background:url('../images/right_menu_borders.png') top center repeat-y;}
+.right_buttons .buttons_container ul {width:319px;height:auto;margin:0;padding-left:2px;padding-right:2px;list-style:none;}
+.right_buttons .buttons_container ul li {width:319px;height:41px;background-image:url('../images/link_button.png');background-position:0px 0px;background-repeat:no-repeat;text-align:center;}
+.right_buttons .buttons_container ul li:hover {background-position:0px -41px;}
+.right_buttons .buttons_container ul li:active {background-position:0px -82px;}
+.right_buttons .buttons_container ul li a {font-size:14px;text-decoration:none;font-family:Tahoma, Geneva, sans-serif;font-weight:200;color:#E5E5E5;padding-top:10px;height:31px;width:319px;display:block;}
+.right_buttons .buttons_container ul li a:hover {color:#01B2F1;}
+.right_buttons .bottom {width:323px;height:2px;background:url('../images/right_menu_bottom.png') top center no-repeat;}
+
+.footer {height:1px;clear:both;margin-bottom:30px;}

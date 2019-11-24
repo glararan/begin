@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CONFIG>
+	<Dir>
+		<Value></Value>
+	</Dir>
+
+	<Lang>
+		<Value>cs_CZ</Value>
+	</Lang>
+	
+	<Version>
+		<Value>0.1</Value>
+	</Version>
+	
+	<MaxUpload>
+		<Value>32mb</Value>
+	</MaxUpload>
+	
+	<FilesWidthResize>
+		<Value>1920</Value>
+	</FilesWidthResize>
+	
+	<FilesHeightResize>
+		<Value>1080</Value>
+	</FilesHeightResize>
+	
+	<FilesQualityResize>
+		<Value>100</Value>
+	</FilesQualityResize>
+</CONFIG>

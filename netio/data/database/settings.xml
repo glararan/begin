@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+	<Blog>
+		<Short>
+			<Value>&lt;div&gt;{TITLE}&lt;/div&gt;&lt;div class="2"&gt;{TEXT}&lt;/div&gt;</Value>
+		</Short>
+		
+		<Long>
+			<Value>&lt;div&gt;&#13;
+&lt;div&gt;{TITLE}&lt;/div&gt;&#13;
+&lt;/div&gt;</Value>
+		</Long>
+	</Blog>
+	
+	<Pages>
+		<Value>{TITLE}/</Value>
+	</Pages>
+</Settings>

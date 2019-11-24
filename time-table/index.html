@@ -1,0 +1,133 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Lukáš Veteška">
+
+    <title>Time Table plugin - Lukáš Veteška</title>
+
+    <base href="http://open-source.veteska.cz/time-table/">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="css/bootstrap-datepicker.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="css/map-icons.min.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="css/style.css" media="screen" rel="stylesheet" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="js/moment.js" type="text/javascript"></script>
+    <script src="js/locale/cs.js" type="text/javascript"></script> <!-- Česká lokalizace pro date picker -->
+    <script src="js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="js/slimscroll.min.js" type="text/javascript"></script>
+    <script src="js/map-icons.js" type="text/javascript"></script>
+    <script src="js/timetable.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="container" id="main">
+        <div class="col-lg-12" id="timetable">
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            var b = $("#timetable").timeTable(
+            {
+                accuracy: 0.25,
+                timeUnit: 1,
+                firstHour: 9,
+                lastHour: 17,
+                resources: 
+                [
+                    { id: 1, name: 'Kyberna' }, 
+                    { id: 2, name: 'Kyb', lat: 50.2037992, lng: 15.8343306 }
+                ], // customers
+                events:
+                [
+                    //nenaplanovane
+                    {
+                        id: 1, 
+                        name: 'Schuzka XY', 
+                        address: 'Sklonena 7', 
+                        lat: 50.1006419,
+                        lng: 0, 
+                        customer: 'zakaznik 1', 
+                        resource: null, 
+                        start: null, 
+                        end: null,
+                        requiredDate: "2016-05-29T10:00:00",
+                        state: 0
+                    },
+                    {
+                        id: 2, 
+                        name: 'Schuzka ABC', 
+                        address: 'Celetna 1', 
+                        lat: 50.0873361, 
+                        lng: 14.4222558, 
+                        customer: 'VIP zakaznik', 
+                        resource: null, 
+                        start: null, 
+                        end: null,
+                        requiredDate: "2016-05-29T10:00:00",
+                        state: 0
+                    },
+                    //naplanovane
+                    {
+                        id: 3, 
+                        name: 'Schuzka AAA', 
+                        address: 'Celetna 1', 
+                        lat: 56.0873361, 
+                        lng: 14.4222558, 
+                        customer: 'VIP zakaznik', 
+                        resource: 1, 
+                        start: "2016-06-29T10:00:00", 
+                        end: "2016-06-29T11:30:00",
+                        requiredDate: "2016-05-29T10:00:00",
+                        state: 1
+                    },
+                    {
+                        id: 4, 
+                        name: 'Schuzka BCV', 
+                        address: 'Okruzni 6, Brandys nad Labem', 
+                        lat: 50.1977606, 
+                        lng: 14.6824344, 
+                        customer: 'zakaznik 45', 
+                        resource: 2, 
+                        start: "2016-06-29T11:00:00", 
+                        end: "2016-06-29T13:45:00",
+                        requiredDate: "2016-05-29T10:00:00",
+                        state: 3
+                    },
+                    {
+                        id: 5, 
+                        name: 'Schuzka XFAf', 
+                        address: 'Vancurova 438, Kostelec nad Labem', 
+                        lat: 50.2250461, 
+                        lng: 14.5832356, 
+                        customer: 'zakaznik 9897', 
+                        resource: 1, 
+                        start: "2016-06-29T15:00:00", 
+                        end: "2016-06-29T16:00:00",
+                        requiredDate: "2016-05-29T10:00:00",
+                        state: 4
+                    },
+                    //jiny den
+                    {
+                        id: 6, 
+                        name: 'Schuzka CNX', 
+                        address: 'Hradecka 1151, Hradec Kralove', 
+                        lat: 50.2037992, 
+                        lng: 15.8343306, 
+                        customer: 'zakaznik CNX', 
+                        resource: 1, 
+                        start: "2016-05-30T12:00:00", 
+                        end: "2016-05-30T14:15:00",
+                        requiredDate: "2016-05-29T10:00:00",
+                        state: 0
+                    }
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

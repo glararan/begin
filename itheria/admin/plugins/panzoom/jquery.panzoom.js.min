@@ -1,0 +1,750 @@
+/*
+    ImageViewer v 1.1.2
+    Modified by Lukáš Veteška for Itheria
+    Author: Sudhanshu Yadav
+    Copyright (c) 2015-2016 to Sudhanshu Yadav - ignitersworld.com , released under the MIT license.
+*/
+
+/*** picture view plugin ****/
+(function ($, window, document, undefined)
+{
+    "use strict";
+
+    //an empty function
+    var noop = function() {};
+
+    var $body, $window, $document;
+
+    //constants
+    var ZOOM_CONSTANT = 15; //increase or decrease value for zoom on mouse wheel
+    var MOUSE_WHEEL_COUNT = 5; //A mouse delta after which it should stop preventing default behaviour of mouse wheel
+
+    //ease out method
+    /*
+        t : current time,
+        b : intial value,
+        c : changed value,
+        d : duration
+    */
+    function easeOutQuart(t, b, c, d)
+    {
+        t /= d;
+        t--;
+        return -c * (t * t * t * t - 1) + b;
+    };
+
+    // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+    // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+
+    // requestAnimationFrame polyfill by Erik Möller
+    // fixes from Paul Irish and Tino Zijdel
+
+    (function ()
+    {
+        var lastTime = 0;
+        var vendors = ['ms', 'moz', 'webkit', 'o'];
+        
+        for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x)
+        {
+            window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+            window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+        }
+
+        if (!window.requestAnimationFrame)
+            window.requestAnimationFrame = function (callback, element) {
+                var currTime = new Date().getTime();
+                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                var id = window.setTimeout(function () {
+                        callback(currTime + timeToCall);
+                    },
+                    timeToCall);
+                lastTime = currTime + timeToCall;
+                return id;
+            };
+
+        if (!window.cancelAnimationFrame)
+            window.cancelAnimationFrame = function (id) {
+                clearTimeout(id);
+            };
+    }());
+    
+    var imageViewHtml = '<div class="iv-loader"></div>' + '<div class="iv-image-view"> <div class="iv-image-wrap"></div> </div>';
+
+    //add a full screen view
+    $(function ()
+    {
+        $body = $('body');
+        $window = $(window);
+        $document = $(document);
+
+        $body.append('<div id="iv-container">' + imageViewHtml + '<div class="iv-close"></div><div>');
+    });
+
+    function Slider(container, options)
+    {
+        this.container = container;
+        this.onStart = options.onStart || noop;
+        this.onMove = options.onMove || noop;
+        this.onEnd = options.onEnd || noop;
+        this.sliderId = options.sliderId || 'slider' + Math.ceil(Math.random() * 1000000);
+    }
+
+    Slider.prototype.init = function ()
+    {
+        var self = this,
+            container = this.container,
+            eventSuffix = '.' + this.sliderId;
+        
+        var lastPos = {x: 0, y: 0};
+
+        //assign event on snap image wrap
+        this.container.on('touchstart' + eventSuffix + ' mousedown' + eventSuffix, function (estart)
+        {
+            estart.preventDefault();
+            
+            var touchMove = (estart.type == "touchstart" ? "touchmove" : "mousemove") + eventSuffix,
+                touchEnd = (estart.type == "touchstart" ? "touchend" : "mouseup") + eventSuffix,
+                eOrginal = estart.originalEvent,
+                sx = eOrginal.clientX || eOrginal.touches[0].clientX,
+                sy = eOrginal.clientY || eOrginal.touches[0].clientY;
+
+            var start = self.onStart(estart,
+            {
+                x: sx,
+                y: sy
+            });
+            
+            lastPos = {x: estart.pageX, y: estart.pageY};
+
+            if (start === false)
+                return;
+
+            var moveListener = function (emove)
+            {
+                emove.preventDefault();
+
+                eOrginal = emove.originalEvent;
+
+                //get the cordinates
+                var mx = eOrginal.clientX || eOrginal.touches[0].clientX;
+                var my = eOrginal.clientY || eOrginal.touches[0].clientY;
+
+                self.onMove(emove,
+                {
+                    dx: mx - sx,
+                    dy: my - sy,
+                    mx: mx,
+                    my: my,
+                    px: lastPos.x - eOrginal.pageX,
+                    py: lastPos.y - eOrginal.pageY
+                });
+                
+                lastPos = {x: eOrginal.pageX, y: eOrginal.pageY};
+            };
+
+            var endListener = function ()
+            {
+                $document.off(touchMove, moveListener);
+                $document.off(touchEnd, endListener);
+                self.onEnd();
+            };
+
+            $document.on(touchMove, moveListener);
+            $document.on(touchEnd, endListener);
+        });
+
+        return this;
+    }
+
+    function MapViewer(container, options)
+    {
+        var self = this;
+
+        self.container = container;
+        options = self.options = $.extend({}, MapViewer.defaults, options);
+
+        self.zoomValue = 100;
+
+        if (!container.find('.snap-view').length)
+            container.prepend(imageViewHtml);
+
+        container.addClass('iv-container');
+
+        if (container.css('position') == 'static')
+            container.css('position', 'relative');
+
+        self.imageWrap = container.find('.iv-image-wrap');
+        self.zoomHandle = container.find('.iv-zoom-handle');
+        self._viewerId = 'iv' + Math.floor(Math.random() * 1000000);
+    }
+
+    MapViewer.prototype =
+    {
+        constructor: MapViewer,
+        _init: function ()
+        {
+            var viewer = this,
+                options = viewer.options,
+                zooming = false, // tell weather we are zooming trough touch
+                container = this.container;
+
+            var eventSuffix = '.' + viewer._viewerId;
+
+            //cache dom refrence
+            var imageWrap = this.imageWrap;
+
+            /*Add slide interaction to image*/
+            var imageSlider = viewer._imageSlider = createSlider();
+            
+            function createSlider()
+            {
+                return new Slider(imageWrap,
+                {
+                    sliderId: viewer._viewerId,
+                    onStart: function (e, position)
+                    {
+                        if (!viewer.loaded)
+                            return false;
+                        if (zooming)
+                            return;
+
+                        var self = this;
+                        
+                        self.imgWidth = viewer.imageDim.w * viewer.zoomValue / 100;
+                        self.imgHeight = viewer.imageDim.h * viewer.zoomValue / 100;
+
+                        self.positions = [position, position];
+                        self.startPosition = position;
+
+                        //clear all animation frame and interval
+                        viewer._clearFrames();
+
+                        self.slideMomentumCheck = setInterval(function()
+                        {
+                            if (!self.currentPos)
+                                return;
+
+                            self.positions.shift();
+                            self.positions.push(
+                            {
+                                x: self.currentPos.mx,
+                                y: self.currentPos.my
+                            });
+                        }, 50);
+                    },
+                    onMove: function (e, position)
+                    {
+                        if(zooming)
+                            return;
+
+                        this.currentPos = position;
+
+                        var containerDim = viewer.containerDim;
+                        var imgWidth = viewer.imageDim.w * (viewer.zoomValue / 100);
+                        var imgHeight = viewer.imageDim.h * (viewer.zoomValue / 100);
+
+                        var imgLeft = 0;
+                        var imgTop  = 0;
+                        
+                        if(imgWidth > containerDim.w)
+                        {
+                            imgLeft = parseFloat(viewer.currentMap[0].style.left) + (position.px * (imgWidth / 500));
+                            
+                            if(imgLeft < -(imgWidth - containerDim.w))
+                                imgLeft = -(imgWidth - containerDim.w);
+                            if(imgLeft > 0)
+                                imgLeft = 0;
+                        }
+                        else
+                            imgLeft = (containerDim.w - imgWidth) / 2;
+                        
+                        if(imgHeight > containerDim.h)
+                        {
+                            imgTop = parseFloat(viewer.currentMap[0].style.top) + (position.py * (imgHeight / 500));
+                            
+                            if(imgTop < -(imgHeight - containerDim.h))
+                                imgTop = -(imgHeight - containerDim.h);
+                            if(imgTop > 0)
+                                imgTop = 0;
+                        }
+                        else
+                            imgTop = (containerDim.h - imgHeight) / 2;
+
+                        viewer.currentMap.css(
+                        {
+                            left: imgLeft,
+                            top: imgTop
+                        });
+                        viewer.currentPoints.css(
+                        {
+                            left: imgLeft,
+                            top: imgTop
+                        });
+                    },
+                    onEnd: function ()
+                    {
+                        if(zooming)
+                            return;
+
+                        /*var self = this;
+
+                        var xDiff = self.positions[1].x - self.positions[0].x,
+                            yDiff = self.positions[1].y - self.positions[0].y;
+
+                        function momentum()
+                        {
+                            if (step <= 60)
+                                self.sliderMomentumFrame = requestAnimationFrame(momentum);
+
+                            positionX = positionX + easeOutQuart(step, xDiff / 3, -xDiff / 3, 60);
+                            positionY = positionY + easeOutQuart(step, yDiff / 3, -yDiff / 3, 60)
+                            */
+                            /*self.onMove(null,
+                            {
+                                dx: positionX / 10,
+                                dy: positionY / 10
+                            });*/
+
+                            /*snapSlider.onMove(null,
+                            {
+                                dx: -((positionX) * snapSlider.width / self.imgWidth),
+                                dy: -((positionY) * snapSlider.height / self.imgHeight)
+                            });*/
+/*
+                            step++;
+                        }
+
+                        if (Math.abs(xDiff) > 30 || Math.abs(yDiff) > 30)
+                        {
+                            var step = 1,
+                                positionX = self.currentPos.dx,
+                                positionY = self.currentPos.dy;
+
+                            momentum();
+                        }*/
+                    }
+                }).init();
+            }
+
+            /*Add zoom interation in mouse wheel*/
+            var changedDelta = 0;
+            
+            imageWrap.on("mousewheel" + eventSuffix + " DOMMouseScroll" + eventSuffix, function(e)
+            {
+                if(!options.zoomOnMouseWheel || !viewer.loaded)
+                    return;
+                
+                //clear all animation frame and interval
+                viewer._clearFrames();
+
+                // cross-browser wheel delta
+                var delta = Math.max(-1, Math.min(1, (e.originalEvent.wheelDelta || -e.originalEvent.detail))),
+                    zoomValue = viewer.zoomValue * (100 + delta * ZOOM_CONSTANT) / 100;
+
+                if(!(zoomValue >= 100 && zoomValue <= options.maxZoom))
+                    changedDelta += Math.abs(delta);
+                else
+                    changedDelta = 0;
+                
+                if(changedDelta > MOUSE_WHEEL_COUNT)
+                    return;
+
+                e.preventDefault();
+
+                var contOffset = container.offset(),
+                    x = (e.pageX || e.originalEvent.pageX) - contOffset.left,
+                    y = (e.pageY || e.originalEvent.pageY) - contOffset.top;
+                
+                if(zoomValue < options.maxZoom && zoomValue > 85)
+                {
+                    viewer.zoom(zoomValue,
+                    {
+                        x: x,
+                        y: y
+                    });
+                }
+            });
+
+            //apply pinch and zoom feature
+            imageWrap.on('touchstart' + eventSuffix, function(estart)
+            {
+                if (!viewer.loaded)
+                    return;
+                
+                var touch0 = estart.originalEvent.touches[0],
+                    touch1 = estart.originalEvent.touches[1];
+
+                if (!(touch0 && touch1))
+                    return;
+
+                zooming = true;
+
+                var contOffset = container.offset();
+
+                var startdist = Math.sqrt(Math.pow(touch1.pageX - touch0.pageX, 2) + Math.pow(touch1.pageY - touch0.pageY, 2)),
+                    startZoom = viewer.zoomValue,
+                    center = {
+                        x: ((touch1.pageX + touch0.pageX) / 2) - contOffset.left,
+                        y: ((touch1.pageY + touch0.pageY) / 2) - contOffset.top
+                    }
+
+                var moveListener = function (emove)
+                {
+                    emove.preventDefault();
+
+                    var touch0 = emove.originalEvent.touches[0],
+                        touch1 = emove.originalEvent.touches[1],
+                        newDist = Math.sqrt(Math.pow(touch1.pageX - touch0.pageX, 2) + Math.pow(touch1.pageY - touch0.pageY, 2)),
+                        zoomValue = startZoom + (newDist - startdist) / 2;
+
+                    viewer.zoom(zoomValue, center);
+                };
+
+                var endListener = function ()
+                {
+                    $document.off('touchmove', moveListener);
+                    $document.off('touchend', endListener);
+                    zooming = false;
+                };
+
+                $document.on('touchmove', moveListener);
+                $document.on('touchend', endListener);
+            });
+
+            //handle double tap for zoom in and zoom out
+            var touchtime = 0, point;
+            
+            imageWrap.on("click" + eventSuffix, function(e)
+            {
+                if (touchtime == 0)
+                {
+                    touchtime = Date.now();
+                    point = {
+                        x: e.pageX,
+                        y: e.pageY
+                    };
+                }
+                else
+                {
+                    if((Date.now() - touchtime) < 500 && Math.abs(e.pageX - point.x) < 50 && Math.abs(e.pageY - point.y) < 50)
+                    {
+                        if (viewer.zoomValue == options.zoomValue)
+                            viewer.zoom(200)
+                        else
+                            viewer.resetZoom()
+                    }
+                    
+                    touchtime = 0;
+                }
+            });
+
+            //calculate elments size on window resize
+            if (options.refreshOnResize)
+            {
+                $window.on('resize' + eventSuffix, function()
+                {
+                    viewer.refresh()
+                });
+            }
+        },
+
+        //method to zoom images
+        zoom: function (perc, point)
+        {
+            perc = Math.round(Math.max(100, perc));
+            perc = Math.min(this.options.maxZoom, perc);
+
+            point = point || {
+                x: this.containerDim.w / 2,
+                y: this.containerDim.h / 2
+            };
+
+            var self = this,
+                maxZoom = this.options.maxZoom,
+                curPerc = this.zoomValue,
+                curMap = this.currentMap,
+                containerDim = this.containerDim,
+                curLeft = parseFloat(curMap.css('left')),
+                curTop = parseFloat(curMap.css('top'));
+
+            self._clearFrames();
+
+            var step = 0;
+            
+            //calculate base top,left,bottom,right
+            var containerDim = self.containerDim,
+                imageDim = self.imageDim;
+            var baseLeft = (containerDim.w - imageDim.w) / 2,
+                baseTop = (containerDim.h - imageDim.h) / 2,
+                baseRight = containerDim.w - baseLeft,
+                baseBottom = containerDim.h - baseTop;
+
+            function zoom()
+            {
+                step++;
+
+                if (step < 20)
+                    self._zoomFrame = requestAnimationFrame(zoom);
+
+                var tickZoom = easeOutQuart(step, curPerc, perc - curPerc, 20);
+
+                var ratio = tickZoom / curPerc,
+                    imgWidth = self.imageDim.w * tickZoom / 100,
+                    imgHeight = self.imageDim.h * tickZoom / 100,
+                    newLeft = -((point.x - curLeft) * ratio - point.x),
+                    newTop = -((point.y - curTop) * ratio - point.y);
+                
+                //fix for left and top
+                newLeft = Math.min(newLeft, baseLeft);
+                newTop = Math.min(newTop, baseTop);
+                
+                //fix for right and bottom
+                if((newLeft + imgWidth) < baseRight)
+                    newLeft = baseRight - imgWidth; //newLeft - (newLeft + imgWidth - baseRight)
+                
+                if((newTop + imgHeight) < baseBottom)            
+                    newTop =  baseBottom - imgHeight; //newTop + (newTop + imgHeight - baseBottom)
+
+                curMap.css(
+                {
+                    height: imgHeight + 'px',
+                    width: imgWidth + 'px',
+                    left: newLeft + 'px',
+                    top: newTop + 'px'
+                });
+                self.resizePoints(imgWidth, imgHeight, self.currentPoints.width(), self.currentPoints.height());
+                self.currentPoints.css(
+                {
+                    height: imgHeight + 'px',
+                    width: imgWidth + 'px',
+                    left: newLeft + 'px',
+                    top: newTop + 'px'
+                });
+
+                self.zoomValue = tickZoom;
+
+                self._resizeHandle(imgWidth, imgHeight, newLeft, newTop);
+
+                //update zoom handle position
+                self.zoomHandle.css('left', ((tickZoom - 100) * self._zoomSliderLength) / (maxZoom - 100) + 'px');
+            }
+
+            zoom();
+        },
+        _clearFrames: function ()
+        {
+            clearInterval(this._imageSlider.slideMomentumCheck);
+            cancelAnimationFrame(this._imageSlider.sliderMomentumFrame);
+            cancelAnimationFrame(this._zoomFrame)
+        },
+        resetZoom: function ()
+        {
+            this.zoom(this.options.zoomValue);
+        },
+        //calculate dimensions of image, container and reset the image
+        _calculateDimensions: function ()
+        {
+            //calculate content width of image and snap image
+            var self = this,
+                curMap = self.currentMap,
+                container = self.container,
+                imageWidth = curMap.width(),
+                imageHeight = curMap.height(),
+                contWidth = container.width(),
+                contHeight = container.height();
+
+            //set the container dimension
+            self.containerDim = {
+                w: contWidth,
+                h: contHeight
+            }
+
+            //set the image dimension
+            var imgWidth, imgHeight, ratio = imageWidth / imageHeight;
+
+            imgWidth = (imageWidth > imageHeight && contHeight >= contWidth) || ratio * contHeight > contWidth ? contWidth : ratio * contHeight;
+            imgHeight = imgWidth / ratio;
+
+            self.imageDim = {
+                w: imgWidth,
+                h: imgHeight
+            }
+
+            //reset image position and zoom
+            curMap.css(
+            {
+                width: imgWidth + 'px',
+                height: imgHeight + 'px',
+                left: (contWidth - imgWidth) / 2 + 'px',
+                top: (contHeight - imgHeight) / 2 + 'px',
+                'max-width': 'none',
+                'max-height': 'none'
+            });
+            self.resizePoints(imgWidth, imgHeight, self.currentPoints.width(), self.currentPoints.height());
+            self.currentPoints.css(
+            {
+                width: imgWidth + 'px',
+                height: imgHeight + 'px',
+                left: (contWidth - imgWidth) / 2 + 'px',
+                top: (contHeight - imgHeight) / 2 + 'px',
+                'max-width': 'none',
+                'max-height': 'none'
+            });
+        },
+        refresh: function ()
+        {
+            if (!this.loaded)
+                return;
+            
+            this._calculateDimensions();
+            this.resetZoom();
+        },
+        _resizeHandle: function (imgWidth, imgHeight, imgLeft, imgTop)
+        {
+            var curMap = this.currentMap,
+                imageWidth = imgWidth || this.imageDim.w * this.zoomValue / 100,
+                imageHeight = imgHeight || this.imageDim.h * this.zoomValue / 100,
+                left = Math.max(-(imgLeft || parseFloat(curMap.css('left'))) * 100 / imageWidth, 0),
+                top = Math.max(-(imgTop || parseFloat(curMap.css('top'))) * 100 / imageHeight, 0),
+                handleWidth = Math.min(this.containerDim.w * 100 / imageWidth, 100),
+                handleHeight = Math.min(this.containerDim.h * 100 / imageHeight, 100);
+
+            /*this.snapHandle.css(
+            {
+                top: top + '%',
+                left: left + '%',
+                width: handleWidth + '%',
+                height: handleHeight + '%'
+            });*/
+        },
+        options: function (key, value)
+        {
+            if (!value)
+                return this.options[key];
+
+            this.options[key] = value;
+        },
+        destroy: function (key, value)
+        {
+            var eventSuffix = '.' + this._viewerId;
+            
+            this.container.remove('[class^="iv"]');
+
+            $window.off(eventSuffix);
+            
+            return null;
+        },
+        load: function (html)
+        {
+            var self = this;
+            var container = self.container;
+
+            container.html(imageViewHtml);
+            
+            self.reinit();
+            self.imageWrap.prepend(html);
+
+            self.currentMap = self.container.find(".map").not(".hidden");
+            self.currentPoints = $(self.currentMap.data("points"));
+            self.loaded = false;
+
+            //show loader
+            container.find('.iv-loader').show();
+
+            //refresh the view
+            self.loaded = true;
+            self.zoomValue = 100;
+
+            //reset zoom of images
+            self.refresh();
+            self.resetZoom();
+
+            //hide loader
+            container.find('.iv-loader').hide();
+        },
+        reinit: function()
+        {
+            var self = this;
+            
+            self.imageWrap = self.container.find('.iv-image-wrap');
+            self.zoomHandle = self.container.find('.iv-zoom-handle');
+            
+            self._init();
+        },
+        resizePoints: function(nWidth, nHeight, oWidth, oHeight)
+        {
+            var self = this;
+            
+            self.currentPoints.children("img").each(function(index)
+            {
+                var point = $(this);
+                
+                var currWidth = parseFloat($(this).css("left"));
+                var currHeight = parseFloat($(this).css("top"));
+                
+                $(this).css(
+                {
+                    left: currWidth / (oWidth / nWidth),
+                    top:  currHeight / (oHeight / nHeight)
+                });
+            });
+        },
+        getSize: function()
+        {
+            return {x: this.currentPoints.width(), y: this.currentPoints.height()};
+        },
+        getMap: function()
+        {
+            return this.currentMap;
+        },
+        refreshMap: function()
+        {
+            var self = this;
+            
+            self.currentMap = self.container.find(".map").not(".hidden");
+            self.currentPoints = $(self.currentMap.data("points"));
+            
+            self.zoomValue = 100;
+            
+            self.refresh();
+            self.resetZoom();
+        },
+        setMaximumZoom: function(value)
+        {
+            var self = this;
+            
+            self.options.maxZoom = value;
+        }
+    }
+
+    MapViewer.defaults =
+    {
+        zoomValue: 100,
+        maxZoom: 500,
+        refreshOnResize: true,
+        zoomOnMouseWheel : true
+    }
+
+    window.MapViewer = function (container, options)
+    {
+        var containerHtml = container.html();
+
+        var viewer = new MapViewer($(container), options);
+        viewer._init();
+        viewer.load(containerHtml);
+
+        return viewer;
+    };
+
+    $.fn.MapViewer = function (options)
+    {
+        return window.MapViewer($(this), options);
+        
+        /*return this.each(function ()
+        {
+            var $this = $(this);
+            var viewer = window.MapViewer($this, options);
+            $this.data('MapViewer', viewer);
+        });*/
+    }
+}((window.jQuery), window, document));
